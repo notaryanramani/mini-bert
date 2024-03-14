@@ -1,0 +1,8 @@
+# Add libraries below this comment
+
+
+# Nightly is used to use MPS BACKEND (used for tensor processing)
+--extra-index-url https://download.pytorch.org/whl/nightly/cpu
+torch
+torchvision
+torchaudio
