@@ -52,9 +52,7 @@ class MultiHeadAttention(nn.Module):
 
     def __init__(self, n_embd, n_heads, head_size, dropout = 0.2):
         super().__init__()
-        self.heads = nn.ModuleDict([
-            Head(n_embd, head_size) for _ in range(n_heads)
-        ])
+        self.heads = nn.ModuleList([Head(n_embd, head_size) for _ in range(n_heads)])
         self.proj = nn.Linear(n_embd, n_embd)
         self.drop = nn.Dropout(dropout)
 
@@ -94,9 +92,9 @@ class Encoder(nn.Module):
         self.forward_heads = MultiHeadAttention(n_embd, n_heads, head_size, dropout=dropout)
         self.backward_heads = MultiHeadAttention(n_embd, n_heads, head_size, dropout=dropout)
         self.forward_ffn = FeedForward(2 * n_embd, dropout=dropout)
-        self.f_ln = nn.LayerNorm()
-        self.b_ln = nn.LayerNorm()
-        self.ln2 = nn.LayerNorm()
+        self.f_ln = nn.LayerNorm(n_embd)
+        self.b_ln = nn.LayerNorm(n_embd)
+        self.ln2 = nn.LayerNorm(n_embd)
         self.drop = nn.Dropout(dropout)
 
     def forward(self, x):

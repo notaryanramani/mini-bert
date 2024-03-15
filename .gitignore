@@ -163,3 +163,4 @@ cython_debug/
 # explicit files
 explore.py
 explore.ipynb
+.DS_Store
