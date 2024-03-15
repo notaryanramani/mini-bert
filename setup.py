@@ -6,9 +6,9 @@ def get_requirements():
     return requirements
 
 setup(
-    name='mini-bert',
-    version='1.0.0',
-    packages=find_packages(),
+    name = 'mini-bert',
+    version = '1.0.0',
+    packages = find_packages(),
     install_requires = get_requirements(),
     dependency_links = ['https://download.pytorch.org/whl/nightly/cpu']
 )

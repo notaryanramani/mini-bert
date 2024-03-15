@@ -85,7 +85,7 @@ class Encoder(nn.Module):
 
     '''Encoder for BERT, with both Forward and Backward attentions'''
 
-    def __init__(self, n_embd, n_heads, dropout = 0.2) -> None:
+    def __init__(self, n_embd, n_heads, dropout = 0.2):
         super().__init__()
         assert n_embd % n_heads == 0, 'n_head is not divisible by n_embd'
         head_size = n_embd // n_heads
