@@ -23,6 +23,24 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
 
     *Note* - Please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for you operating system
 
+## WikipediaScraper 
+
+WikipediaScraper is a Python class designed to scrape random pages from Wikipedia and save the scraped text content to a text file.
+
+### Usage
+
+1. **Example Snippet**: Import the class, instantiate an object and call the `scrap_pages()` method.
+    ```python
+    from wikipedia_scraper import WikipediaScraper
+    scraper = WikipediaScraper()
+    scraper.scrap_pages(n_pages=100)
+    ```
+
+2. **View Saved Data**: View the saved text data in the specified text file.
+    ```bash
+    cat datakit/data/data.txt
+    ```
+
 ## Contribution
 
 Contributions are welcome! If you find any bugs or have suggestions for improvement, please open an issue or submit a pull request.
