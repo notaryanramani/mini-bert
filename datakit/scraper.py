@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
+import warnings
 
 class WikipediaScraper:
     def __init__(self):
         pass
 
-    def scrap_pages(self, n_pages = 1000):
+    def scrap_pages(self, n_pages = 1000, filename = 'data.txt'):
 
         """
         Scrapes random Wikipedia pages and saves the content to a text file.
@@ -13,15 +14,17 @@ class WikipediaScraper:
         Parameters:
         - n_pages (int): The number of Wikipedia pages to scrape. Default is 1000.
         """
+        if not filename.endswith('.txt'):
+            warnings.warn("Filename does not ends with '.txt'. We suggest you saving it with a '.txt' extension", category=Warning)
 
         data = []
         for i in range(n_pages):
             text = self.scrap_one_page()
             data.append(text)
-            if (i+1) % 100 == 0:
+            if (i+1) % (n_pages // 10) == 0:
                 print(f'Scraped Page {i+1}')
         data = '\n'.join(data)
-        self.save('data.txt', data)
+        self.save(filename, data)
 
     def scrap_one_page(self):
 

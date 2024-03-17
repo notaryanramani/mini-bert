@@ -21,7 +21,7 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
     pip install -r requirements.txt
     ```
 
-    *Note* - Please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for you operating system
+    *Note* - Please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for your operating system
 
 ## WikipediaScraper 
 
