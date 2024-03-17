@@ -3,3 +3,4 @@ torchvision
 torchaudio
 beautifulsoup4
 requests
+tiktoken
