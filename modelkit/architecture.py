@@ -32,14 +32,14 @@ class Head(nn.Module):
         self.value = nn.Linear(n_embd, head_size)
 
 
-    def forward(self, q, k, v):
-        _, _, C = q.shape
+    def forward(self, x):
+        _, _, C = x.shape
 
-        qi = self.query(q)
-        ki = self.key(k)
-        vi = self.value(v)
+        qi = self.query(x)
+        ki = self.key(x)
+        vi = self.value(x)
 
-        att = qi @ ki.transpose(-1, -2 ) / torch.sqrt(torch.tensor(C, dtype=torch.float32))
+        att = qi @ ki.transpose(-1, -2) / torch.sqrt(torch.tensor(C, dtype=torch.float32))
         att = F.softmax(att, dim=-1)
 
         out = att @ vi
@@ -57,7 +57,7 @@ class MultiHeadAttention(nn.Module):
         self.drop = nn.Dropout(dropout)
 
     def forward(self, x):
-        x = torch.cat([h(x, x, x) for h in self.heads], dim=-1)
+        x = torch.cat([h(x) for h in self.heads], dim=-1)
         x = self.proj(x)
         out = self.drop(x)
         return out
@@ -100,7 +100,7 @@ class Encoder(nn.Module):
     def forward(self, x):
         for_x = self.ln1(x)
         for_x = self.forward_heads(for_x) + for_x
-        back_x = torch.flip(x, dims=(-1, ))
+        back_x = torch.flip(x, dims=(-2, ))
         back_x = self.b_ln(back_x)
         back_x = self.backward_heads(back_x) + back_x
         x = torch.cat([for_x, back_x], dim=-1)
@@ -108,4 +108,4 @@ class Encoder(nn.Module):
         x = self.ffn(x) + x
         out = self.drop(x)
         return out
-
+    

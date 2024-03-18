@@ -9,13 +9,14 @@ class DataLoader:
         self.batch_size = batch_size
         self.text = open(self.filepath, 'r').read()
         base = tiktoken.get_encoding(self.tokenizer_name)
+        self.mask_token = base.n_vocab
         self.tokenizer = tiktoken.Encoding(
             name = 'mini-bert-tokenizer',
             pat_str = base._pat_str,
             mergeable_ranks = base._mergeable_ranks,
             special_tokens = {
                 ** base._special_tokens,
-                '<|mask|>' : 50257
+                '<|mask|>' : self.mask_token
             }
         )
         self.tokens = self.tokenizer.encode(self.text)
@@ -40,9 +41,9 @@ class DataLoader:
             yi = d[idx].item()
             change_flag = torch.multinomial(input = change_probs, num_samples = 1).item()
             if change_flag == 0:
-                d[idx] = 50257
+                d[idx] = self.mask_token
             elif change_flag == 1:
-                d[idx] = torch.randint(0, 50257, (1,))[0].item()
+                d[idx] = torch.randint(0, self.tokenizer.n_vocab - 1, (1,))[0].item()
 
             x.append(d.tolist())
             y.append(yi)

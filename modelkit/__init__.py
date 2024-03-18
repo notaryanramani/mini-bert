@@ -1,4 +1,4 @@
-import os
-import sys
+from .model import BERT
 
-sys.path.append(os.path.realpath(os.getcwd()))
+# from modelkit import BERT
+# from modelkit.model import BERT

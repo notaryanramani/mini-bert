@@ -18,6 +18,7 @@ class BERT:
     def forward(self, x, targets = None):
         x = self.tok_emb(x)
         x = self.pos_emb(x)
+
         x = self.encoders(x)
         x = self.ln(x)
         logits = self.linear(x)
