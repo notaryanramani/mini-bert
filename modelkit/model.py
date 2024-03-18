@@ -1,4 +1,4 @@
-from src.architecture import Encoder, PositionEmbedding
+from modelkit.architecture import Encoder, PositionEmbedding
 import torch.nn as nn
 import torch.nn.functional as F
 

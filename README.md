@@ -6,7 +6,7 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
 
 - **Simplified Architecture**: Mini-BERT follows the core principles of BERT while minimizing complexity.
 - **Easy to Understand**: Designed to be accessible for educational purposes, with clear code and documentation.
-- **Minimal Dependencies**: Requires only basic libraries such as PyTorch and NumPy.
+- **Minimal Dependencies**: Requires only basic libraries such as PyTorch.
 - **Flexible**: Easy to extend and customize for different experiments and applications.
 
 ## Installation
@@ -31,9 +31,9 @@ WikipediaScraper is a Python class designed to scrape random pages from Wikipedi
 
 1. **Example Snippet**: Import the class, instantiate an object and call the `scrap_pages()` method.
     ```python
-    from wikipedia_scraper import WikipediaScraper
+    from datakit.scraper import WikipediaScraper
     scraper = WikipediaScraper()
-    scraper.scrap_pages(n_pages=100)
+    scraper.scrap_pages(n_pages=100, filename='data.txt')
     ```
 
 2. **View Saved Data**: View the saved text data in the specified text file.
