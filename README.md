@@ -23,6 +23,25 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
 
     *Note* - Please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for your operating system
 
+## Trainer 
+
+Trainer is a Python class designed to train the model for a specific task.
+
+### Usage
+Import the class, instantiate an object and call the `.train()` method.
+
+    ```python
+    from src import Trainer
+    from modelkit import BERT
+    from torch.optim import AdamW
+
+    m = BERT(*parameters*)
+    optimizer = AdamW(m.parameters(), lr = 1e-5)
+    trainer = Trainer(m, optimizer)
+    m = trainer.train()
+    
+    ```
+
 ## WikipediaScraper 
 
 WikipediaScraper is a Python class designed to scrape random pages from Wikipedia and save the scraped text content to a text file.
