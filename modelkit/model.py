@@ -5,14 +5,15 @@ import torch.nn.functional as F
 
 dropout = 0.2
 
-class BERT:
+class BERT(nn.Module):
     def __init__(self, vocab_size, n_embd, block_size, n_heads, n_layers, dropout = dropout):
+        super().__init__()
         self.tok_emb = nn.Embedding(vocab_size, n_embd)
         self.pos_emb = PositionEmbedding(n_embd, block_size)
         self.encoders = nn.Sequential(*[Encoder(n_embd, n_heads) for _ in range(n_layers)])
-        self.ln = nn.LayerNorm(2 * n_embd)
+        self.ln = nn.LayerNorm(n_embd)
         self.drop = nn.Dropout(dropout)
-        self.linear = nn.Linear(2 * n_embd, vocab_size)
+        self.linear = nn.Linear(n_embd, vocab_size)
 
 
     def forward(self, x, targets = None):
@@ -21,16 +22,21 @@ class BERT:
 
         x = self.encoders(x)
         x = self.ln(x)
-        logits = self.linear(x)
+        last_hidden_state = self.linear(x)
+        logits = last_hidden_state.mean(dim=-2, keepdim=True).squeeze(-2)
 
         if targets is not None:
-            loss = F.cross_entropy(logits, loss)
+            loss = F.cross_entropy(logits, targets)
         else:
             loss = None
-
         return logits, loss
     
 
     def predict(self, x):
         logits, _ = self(x)
         return logits
+    
+
+    def get_parameters(self):
+        params = sum([p.numel() for p in self.parameters()])
+        return params

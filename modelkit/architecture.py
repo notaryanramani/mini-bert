@@ -83,27 +83,21 @@ class FeedForward(nn.Module):
 
 class Encoder(nn.Module):
 
-    '''Encoder for BERT, with both Forward and Backward attentions'''
+    '''Encoder for BERT'''
 
     def __init__(self, n_embd, n_heads, dropout = 0.2):
         super().__init__()
         assert n_embd % n_heads == 0, 'n_head is not divisible by n_embd'
         head_size = n_embd // n_heads
-        self.forward_heads = MultiHeadAttention(n_embd, n_heads, head_size, dropout=dropout)
-        self.backward_heads = MultiHeadAttention(n_embd, n_heads, head_size, dropout=dropout)
-        self.forward_ffn = FeedForward(2 * n_embd, dropout=dropout)
-        self.f_ln = nn.LayerNorm(n_embd)
-        self.b_ln = nn.LayerNorm(n_embd)
+        self.heads = MultiHeadAttention(n_embd, n_heads, head_size, dropout=dropout)
+        self.ffn = FeedForward(n_embd, dropout=dropout)
+        self.ln1 = nn.LayerNorm(n_embd)
         self.ln2 = nn.LayerNorm(n_embd)
         self.drop = nn.Dropout(dropout)
 
     def forward(self, x):
-        for_x = self.ln1(x)
-        for_x = self.forward_heads(for_x) + for_x
-        back_x = torch.flip(x, dims=(-2, ))
-        back_x = self.b_ln(back_x)
-        back_x = self.backward_heads(back_x) + back_x
-        x = torch.cat([for_x, back_x], dim=-1)
+        x = self.ln1(x)
+        x = self.heads(x) + x
         x = self.ln2(x)
         x = self.ffn(x) + x
         out = self.drop(x)

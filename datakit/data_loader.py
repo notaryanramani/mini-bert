@@ -19,19 +19,23 @@ class DataLoader:
                 '<|mask|>' : self.mask_token
             }
         )
-        self.tokens = self.tokenizer.encode(self.text)
+        tokens = self.tokenizer.encode(self.text)
+        split = int(len(tokens) * 0.9)
+        self.train_tokens = tokens[:split]
+        self.val_tokens = tokens[split:]
     
     def get_text(self):
         return self.text
     
-    def get_data(self):
-        start_indeces = torch.randint(0, len(self.tokens) - self.block_size, (self.batch_size,))
-        data = [self.tokens[i.item(): i.item()+self.block_size] for i in start_indeces]
+    def get_batch(self, split='train'):
+        tokens = self.train_tokens if split == 'train' else self.val_tokens
+        start_indeces = torch.randint(0, len(tokens) - self.block_size, (self.batch_size,))
+        data = [tokens[i.item(): i.item()+self.block_size] for i in start_indeces]
         data = torch.tensor(data)
-        x, y = self.get_batch(data)
+        x, y = self.prepare_batch(data)
         return x, y
 
-    def get_batch(self, data):
+    def prepare_batch(self, data):
         x, y = [], []
 
         change_probs = torch.tensor([0.8, 0.1, 0.1])
