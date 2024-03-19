@@ -19,7 +19,7 @@ class Trainer():
         print('Training Started')
         for step in range(self.steps):
             x, y = self.data_loader.get_batch()
-            logits, loss = self.m(x, targets = y)
+            _, loss = self.m(x, targets = y)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()

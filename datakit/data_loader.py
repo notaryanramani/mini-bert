@@ -28,6 +28,18 @@ class DataLoader:
         return self.text
     
     def get_batch(self, split='train'):
+
+        '''
+        Returns the batch for training.
+
+        Parameters:
+            - split: type of split i.e., train or validation
+
+        Returns:
+            - x : tensor of shape (batch_size, block_size)
+            - y : tensor of shape (batch_size,)
+        '''
+
         tokens = self.train_tokens if split == 'train' else self.val_tokens
         start_indeces = torch.randint(0, len(tokens) - self.block_size, (self.batch_size,))
         data = [tokens[i.item(): i.item()+self.block_size] for i in start_indeces]

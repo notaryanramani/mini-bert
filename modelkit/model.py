@@ -4,7 +4,6 @@ import torch.nn.functional as F
 
 
 dropout = 0.2
-
 class BERT(nn.Module):
     def __init__(self, vocab_size, n_embd, block_size, n_heads, n_layers, dropout = dropout):
         super().__init__()
