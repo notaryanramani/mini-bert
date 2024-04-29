@@ -35,6 +35,3 @@ class AutoModel():
             return m
                 
 
-# comment to check change
-# change 2
-# change 3
