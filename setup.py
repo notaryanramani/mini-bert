@@ -14,7 +14,7 @@ def get_torch_version():
         return torch_
     
     elif sys.platform == 'darwin':
-        torch_ = f'torch @https://download.pytorch.org/whl/cpu/torch-2.3.0%2Bcpu-{python_version}-{python_version}-macosx_10_9_x86_64.whl'
+        torch_ = f'torch'
         return torch_
     
     elif sys.platform == 'linux':
