@@ -1,6 +1,6 @@
 '''
 This can be a sample code for training the model.
-This code trains a model on the text file located at data/data.txt and saves the model to the modelkit/model folder.
+This code trains a model on the text file located at data/data.txt and saves the model to the model folder.
 '''
 
 from modelkit import AutoModel
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     m = t.train(epochs=2, steps_per_epoch=100)
     m.to(device)
 
-    models_dir = 'modelkit/models'
+    models_dir = 'model'
     os.makedirs(models_dir, exist_ok=True)
 
-    torch.save(m.state_dict(), 'modelkit/models/model.pth')
+    torch.save(m.state_dict(), 'model/model.pth')
     
