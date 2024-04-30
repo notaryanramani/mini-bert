@@ -30,7 +30,7 @@ Trainer is a Python class designed to train the model for a specific task.
 ### Usage
 Import the class, instantiate an object and call the `train()` method.
 
-    ```python
+```python
     from src import Trainer
     from modelkit import BERT
     from torch.optim import AdamW
@@ -42,7 +42,7 @@ Import the class, instantiate an object and call the `train()` method.
     optimizer = AdamW(m.parameters(), lr = 1e-5)
     trainer = Trainer(m, optimizer, data_loader)
     m = trainer.train()
-    ```
+```
 
 `train()` method return the trained model.
 
