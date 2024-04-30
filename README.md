@@ -23,6 +23,10 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
 
     *Note* - If you encounter an error while installing torch packages, please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for your system configuration and OS.
 
+OR
+
+You can simply fork this repository. 
+
 ## Trainer 
 
 Trainer is a Python class designed to train the model for a specific task.
