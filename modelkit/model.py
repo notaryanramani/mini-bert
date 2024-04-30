@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 dropout = 0.2
 class BERT(nn.Module):
-    def __init__(self, vocab_size, n_embd = 128, block_size = 32, n_heads = 4, n_layers = 4, dropout = dropout):
+    def __init__(self, vocab_size, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = dropout):
         super().__init__()
         self.tok_emb = nn.Embedding(vocab_size, n_embd)
         self.pos_emb = PositionEmbedding(n_embd, block_size)
@@ -45,7 +45,7 @@ class BERT(nn.Module):
     
 
 class BERTforClassification(nn.Module):
-    def __init__(self, vocab_size, n_targets, n_embd = 128, block_size = 32, n_heads = 4, n_layers = 4, dropout = dropout):
+    def __init__(self, vocab_size, n_targets, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = dropout):
         super().__init__()
         self.tok_emb = nn.Embedding(vocab_size, n_embd)
         self.pos_emb = PositionEmbedding(n_embd, block_size)

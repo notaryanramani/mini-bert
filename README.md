@@ -35,7 +35,7 @@ Trainer is a Python class designed to train the model for a specific task.
 Import the class, instantiate an object and call the `train()` method.
 
 ```python
-from src import Trainer
+from trainer import Trainer
 from modelkit import BERT
 from torch.optim import AdamW
 from datakit import DataLoader
@@ -49,6 +49,11 @@ m = trainer.train()
 ```
 
 `train()` method return the trained model.
+
+### Fine-Tuning for Classification (Coming Soon)
+
+I am currently working on adding code for fine-tuning Mini-BERT for classification tasks. This feature will allow you to train the model on your own dataset and use it for various classification tasks. Stay tuned for updates! :)
+
 
 ## WikipediaScraper 
 

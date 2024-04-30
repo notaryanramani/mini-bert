@@ -6,7 +6,7 @@ import re
 
 class WikipediaScraper:
     def __init__(self):
-        pass
+        self.filepath = None
 
     def scrap_pages(self, n_pages = 1000, filepath = 'data/data.txt'):
 
@@ -34,7 +34,11 @@ class WikipediaScraper:
         data = re.sub(r'\s+', ' ', data)
         data = re.sub(r'\n+', '\n', data)
 
+        self.filepath = filepath
         self.save(filepath, data)
+
+    def get_file_path(self):
+        return self.filepath
 
     def scrap_one_page(self):
 
@@ -78,8 +82,15 @@ class WikipediaScraper:
         """
 
         print(f'Saving file containing {len(text)} characters')
-        with open(f'{filepath}', 'w') as f:
-            f.write(text)
+        try:
+            with open(f'{filepath}', 'w', encoding='utf-8') as f:
+                f.write(text)
+            
+        except UnicodeEncodeError as e:
+            print(f"Error occurred while encoding: {e}")
+            cleaned_text = ''.join([char for char in text if ord(char) < 128])
+            with open('file.txt', 'w', encoding='utf-8') as file:
+                file.write(cleaned_text)
 
 
     def __check_path(self, filepath):
@@ -96,7 +107,7 @@ class WikipediaScraper:
 if __name__ == '__main__':
     scraper = WikipediaScraper()
     print('Scrapping pages...')
-    scraper.scrap_pages(n_pages=100)
+    scraper.scrap_pages(n_pages=50)
     print('Finished Scrapping...')
 
         

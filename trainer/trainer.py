@@ -1,37 +1,38 @@
+from tqdm import tqdm
+
 class Trainer():
     def __init__(
             self, 
             model, 
             optimizer, 
             data_loader,
-            steps = 20000):
-        
+            ):
         self.m = model
         self.optimizer = optimizer
-        self.steps = steps
-        self.step_eval = self.steps // 10
         self.data_loader = data_loader
 
 
-    def train(self):
+    def train(self, epochs = 5, steps_per_epoch = 4000):
         print('Training Started')
-        for step in range(self.steps):
-            x, y = self.data_loader.get_batch()
-            _, loss = self.m(x, targets = y)
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
-
-            if step % self.step_eval == 0:
-                train_loss, val_loss = self.__eval()
-                print(f'Train Loss: {train_loss}, Val Loss: {val_loss}')
+        for epoch in range(epochs):
+            s = tqdm(range(steps_per_epoch), leave=False, ncols=100)
+            for _ in s:
+                x, y = self.data_loader.get_batch()
+                _, loss = self.m(x, targets = y)
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                s.set_description(f'Epoch: {epoch}/{epochs}')
+                s.set_postfix(loss = loss.item())
+            train_loss, val_loss = self.__eval()
+            print(f'Epoch {epoch} - Train Loss: {train_loss:.3f}, Val Loss: {val_loss:.3f}')
 
         return self.m
     
     def __eval(self):
         val_lossi = []
         train_lossi = []
-        for _ in range(50):
+        for _ in range(10):
             x, y = self.data_loader.get_batch()
             _, loss = self.m(x, y)
             train_lossi.append(loss.item())
