@@ -31,17 +31,17 @@ Trainer is a Python class designed to train the model for a specific task.
 Import the class, instantiate an object and call the `train()` method.
 
 ```python
-    from src import Trainer
-    from modelkit import BERT
-    from torch.optim import AdamW
-    from datakit import DataLoader
+from src import Trainer
+from modelkit import BERT
+from torch.optim import AdamW
+from datakit import DataLoader
 
-    data_loader = DataLoader('datakit/data/data.txt', 32, 32)
-    tokenizer = data_loader.get_tokenizer()
-    m = BERT(vocab_size = tokenizer.n_vocab)
-    optimizer = AdamW(m.parameters(), lr = 1e-5)
-    trainer = Trainer(m, optimizer, data_loader)
-    m = trainer.train()
+data_loader = DataLoader('datakit/data/data.txt', 32, 32)
+tokenizer = data_loader.get_tokenizer()
+m = BERT(vocab_size = tokenizer.n_vocab)
+optimizer = AdamW(m.parameters(), lr = 1e-5)
+trainer = Trainer(m, optimizer, data_loader)
+m = trainer.train()
 ```
 
 `train()` method return the trained model.
