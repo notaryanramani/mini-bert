@@ -16,12 +16,12 @@ Mini-BERT is a simplified implementation of BERT (Bidirectional Encoder Represen
    git clone https://github.com/notaryanramani/mini-bert.git
    ```
 
-2. Install the dependencies for MacOS.
+2. Install the package.
     ```
-    pip install -r requirements.txt
+    pip install -e .
     ```
 
-    *Note* - Please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for your operating system
+    *Note* - If you encounter an error while installing torch packages, please refer [PyTorch documentation](https://pytorch.org/get-started/locally/) to install PyTorch for your system configuration and OS.
 
 ## Trainer 
 
@@ -36,9 +36,10 @@ Import the class, instantiate an object and call the `train()` method.
     from torch.optim import AdamW
     from datakit import DataLoader
 
-    m = BERT(*parameters*)
-    optimizer = AdamW(m.parameters(), lr = 1e-5)
     data_loader = DataLoader('datakit/data/data.txt', 32, 32)
+    tokenizer = data_loader.get_tokenizer()
+    m = BERT(vocab_size = tokenizer.n_vocab)
+    optimizer = AdamW(m.parameters(), lr = 1e-5)
     trainer = Trainer(m, optimizer, data_loader)
     m = trainer.train()
     

@@ -1,6 +1,6 @@
-torch
-torchvision
-torchaudio
+torch==2.3.0+cpu
+torchvision==0.10.0+cpu
+torchaudio==0.9.0+cpu
 beautifulsoup4
 requests
 tiktoken
