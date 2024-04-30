@@ -40,7 +40,9 @@ from modelkit import BERT
 from torch.optim import AdamW
 from datakit import DataLoader
 
-data_loader = DataLoader('datakit/data/data.txt', 32, 32)
+
+filepath = 'data/data.txt'
+data_loader = d = DataLoaderForBase(filepath)
 tokenizer = data_loader.get_tokenizer()
 m = BERT(vocab_size = tokenizer.n_vocab)
 optimizer = AdamW(m.parameters(), lr = 1e-5)
