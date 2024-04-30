@@ -42,7 +42,6 @@ Import the class, instantiate an object and call the `train()` method.
     optimizer = AdamW(m.parameters(), lr = 1e-5)
     trainer = Trainer(m, optimizer, data_loader)
     m = trainer.train()
-    
     ```
 
 `train()` method return the trained model.
