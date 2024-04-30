@@ -156,8 +156,8 @@ class DataLoaderForClassification(DataLoaderForBase):
         x = self.train_x if split == 'train' else self.val_x
         y = self.train_y if split == 'train' else self.val_y
         start_indeces = torch.randint(0, len(x), (self.batch_size,))
-        x = [x[i] for i in start_indeces]
-        y = [y[i] for i in start_indeces]
+        x = [x[i.item()] for i in start_indeces]
+        y = [y[i.item()] for i in start_indeces]
         x = self.prepare_batch(x)
         x = torch.tensor(x)
         y = torch.tensor(y)

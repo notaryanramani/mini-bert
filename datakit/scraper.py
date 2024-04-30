@@ -26,14 +26,14 @@ class WikipediaScraper:
         data = []
         for i in range(n_pages):
             text = self.scrap_one_page()
+            text = re.sub(r'\s+', ' ', text)
             data.append(text)
+            
             if (i+1) % (n_pages // 10) == 0:
                 print(f'Scraped Pages: {i+1}')
         data = '\n'.join(data)
-
-        data = re.sub(r'\s+', ' ', data)
-        data = re.sub(r'\n+', '\n', data)
-
+        data = re.sub(r'\[\d+\]', '', data)
+        
         self.filepath = filepath
         self.save(filepath, data)
 
