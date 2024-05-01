@@ -1,4 +1,6 @@
 from tqdm import tqdm
+from utils import CustomLogger
+import os
 
 class Trainer():
     def __init__(
@@ -10,6 +12,8 @@ class Trainer():
         self.m = model
         self.optimizer = optimizer
         self.data_loader = data_loader
+        os.makedirs('logs', exist_ok=True)
+        self.logger = CustomLogger(__name__, 'logs/train_logs.log')
 
 
     def train(self, epochs = 5, steps_per_epoch = 4000):
@@ -25,8 +29,8 @@ class Trainer():
                 s.set_description(f'Epoch: {epoch}/{epochs}')
                 s.set_postfix(loss = loss.item())
             train_loss, val_loss = self.__eval()
-            print(f'Epoch {epoch} - Train Loss: {train_loss:.3f}, Val Loss: {val_loss:.3f}')
-
+            self.logger.info(f'Epoch {epoch} - Train Loss: {train_loss:.3f}, Val Loss: {val_loss:.3f}')
+        print('Training Finished. Check logs for accuracy & loss values')
         return self.m
     
     def __eval(self):

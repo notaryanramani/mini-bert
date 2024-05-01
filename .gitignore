@@ -165,5 +165,6 @@ explore.py
 explore.ipynb
 .DS_Store
 Project Document.pages
+logs/
 
 modelkit/models/*.pth

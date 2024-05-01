@@ -54,6 +54,8 @@ class DataLoaderForBase:
         start_indeces = torch.randint(0, len(tokens) - self.block_size, (self.batch_size,))
         data = [tokens[i.item(): i.item()+self.block_size] for i in start_indeces]
         data = torch.tensor(data)
+        data[:, 0] = self.tokenizer._special_tokens['<|cls|>']
+        data[:, -1] = self.tokenizer._special_tokens['<|sep|>']
         x, y = self.prepare_batch(data)
         return x, y
 
@@ -76,7 +78,7 @@ class DataLoaderForBase:
         change_probs = torch.tensor([0.8, 0.1, 0.1])
         for d in data:
             d = d.clone()
-            idx = torch.randint(0, data.shape[1], (1,))[0].item()
+            idx = torch.randint(1, data.shape[1] -1, (1,))[0].item()
             yi = d[idx].item()
             change_flag = torch.multinomial(input = change_probs, num_samples = 1).item()
             if change_flag == 0:
@@ -181,9 +183,11 @@ class DataLoaderForClassification(DataLoaderForBase):
         for xi in x:
             xi_ = self.tokenizer.encode(xi, allowed_special=self.tokenizer.special_tokens_set)
             if len(xi_) < self.block_size:
-                xi_ += [self.tokenizer.special_tokens['<|pad|>']] * (self.block_size - len(xi))
+                xi_ += [self.tokenizer._special_tokens['<|pad|>']] * (self.block_size - len(xi) - 1) 
             elif len(xi_) > self.block_size:
                 xi_ = xi_[:self.block_size]
+                xi[-1] = self.tokenizer._special_tokens['<|endoftext|>']
+            
             x_.append(xi_)
         
         return x_

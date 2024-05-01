@@ -24,11 +24,11 @@ if __name__ == '__main__':
     optim = AdamW(m.parameters(), lr=1e-4)
 
     t = Trainer(m, optim, d)
-    m = t.train(epochs=2, steps_per_epoch=100)
+    m = t.train(epochs=1, steps_per_epoch=10)
     m.to(device)
 
-    models_dir = 'model'
-    os.makedirs(models_dir, exist_ok=True)
+    # models_dir = 'model'
+    # os.makedirs(models_dir, exist_ok=True)
 
-    torch.save(m.state_dict(), 'model/model.pth')
+    # torch.save(m.state_dict(), 'model/model.pth')
     

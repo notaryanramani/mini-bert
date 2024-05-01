@@ -3,10 +3,13 @@ import requests
 import warnings
 import os
 import re
+from utils import CustomLogger
+from tqdm import tqdm
 
 class WikipediaScraper:
-    def __init__(self):
+    def __init__(self, logfile='logs/scraper_logs.log'):
         self.filepath = None
+        self.logger = CustomLogger(__name__, logfile)
 
     def scrap_pages(self, n_pages = 1000, filepath = 'data/data.txt'):
 
@@ -22,20 +25,23 @@ class WikipediaScraper:
 
         self.__check_path(filepath)
 
-        print('Scrapping started...')
+        print('Scraping Started...')
+        self.logger.info(f'Scraping {n_pages} pages, filepath: {filepath}')
         data = []
-        for i in range(n_pages):
+        l = tqdm(range(n_pages), ncols=100)
+        for i in l:
             text = self.scrap_one_page()
             text = re.sub(r'\s+', ' ', text)
             data.append(text)
-            
+            l.set_postfix(text_len = len(text))
             if (i+1) % (n_pages // 10) == 0:
-                print(f'Scraped Pages: {i+1}')
-        data = '\n'.join(data)
+                self.logger.info(f'Scraped Pages: {i+1}')
+        data = '<|endoftext|>'.join(data)
         data = re.sub(r'\[\d+\]', '', data)
         
         self.filepath = filepath
         self.save(filepath, data)
+        print('Scraping Completed. Check logs for more details.')
 
     def get_file_path(self):
         return self.filepath
@@ -81,7 +87,7 @@ class WikipediaScraper:
         - text (str): The text content to save.
         """
 
-        print(f'Saving file containing {len(text)} characters')
+        self.logger.info(f'Saving file containing {len(text)} characters at {filepath}')
         try:
             with open(f'{filepath}', 'w', encoding='utf-8') as f:
                 f.write(text)
@@ -94,20 +100,16 @@ class WikipediaScraper:
 
 
     def __check_path(self, filepath):
-        print(os.getcwd())
         dir = os.path.dirname(filepath)
-        print(dir)
         if not os.path.exists(dir) and dir != '':
-            print(f"Directory doesnot exists. Creating {dir} path...")
+            self.logger.info(f"Directory doesnot exists. Creating {dir} path...")
             os.makedirs(dir)
         else:
-            print('Path exists...')
+            self.logger.info('Input path exists. Starting scraping...')
 
 
 if __name__ == '__main__':
     scraper = WikipediaScraper()
-    print('Scrapping pages...')
     scraper.scrap_pages(n_pages=50)
-    print('Finished Scrapping...')
 
         
