@@ -42,11 +42,11 @@ from datakit import DataLoader
 
 
 filepath = 'data/data.txt'
-data_loader = d = DataLoaderForBase(filepath)
-tokenizer = data_loader.get_tokenizer()
+d = DataLoaderForBase(filepath)
+tokenizer = d.get_tokenizer()
 m = BERT(vocab_size = tokenizer.n_vocab)
 optimizer = AdamW(m.parameters(), lr = 1e-5)
-trainer = Trainer(m, optimizer, data_loader)
+trainer = Trainer(m, optimizer, d)
 m = trainer.train()
 ```
 
