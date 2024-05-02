@@ -9,6 +9,9 @@ from tqdm import tqdm
 class WikipediaScraper:
     def __init__(self, logfile='logs/scraper_logs.log'):
         self.filepath = None
+        dir = os.path.dirname(logfile)
+        if not os.path.exists(dir) and dir != '':
+            os.makedirs(dir)
         self.logger = CustomLogger(__name__, logfile)
 
     def scrap_pages(self, n_pages = 1000, filepath = 'data/data.txt'):
@@ -106,10 +109,3 @@ class WikipediaScraper:
             os.makedirs(dir)
         else:
             self.logger.info('Input path exists. Starting scraping...')
-
-
-if __name__ == '__main__':
-    scraper = WikipediaScraper()
-    scraper.scrap_pages(n_pages=50)
-
-        

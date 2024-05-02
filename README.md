@@ -37,7 +37,6 @@ Import the class, instantiate an object and call the `train()` method.
 ```python
 from trainer import Trainer
 from modelkit import BERT
-from torch.optim import AdamW
 from datakit import DataLoader
 
 
@@ -45,8 +44,7 @@ filepath = 'data/data.txt'
 d = DataLoaderForBase(filepath)
 tokenizer = d.get_tokenizer()
 m = BERT(vocab_size = tokenizer.n_vocab)
-optimizer = AdamW(m.parameters(), lr = 1e-5)
-trainer = Trainer(m, optimizer, d)
+trainer = Trainer(m, d, lr = 1e-4)
 m = trainer.train()
 ```
 

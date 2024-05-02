@@ -7,12 +7,10 @@ from modelkit import AutoModel
 import torch
 from datakit import DataLoaderForBase
 from trainer import Trainer
-from torch.optim import AdamW
 import os
 
 if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
     filepath = 'data/data.txt'
 
     d = DataLoaderForBase(filepath)
@@ -21,14 +19,13 @@ if __name__ == '__main__':
 
     m = AutoModel().load(vocab_size=tok.n_vocab)
     m.to(device)
-    optim = AdamW(m.parameters(), lr=1e-4)
 
-    t = Trainer(m, optim, d)
-    m = t.train(epochs=1, steps_per_epoch=10)
+    t = Trainer(m, d, lr = 1e-4, logfile='logs/train_logs.log', enable_checkpointing=True)
+    m = t.train(epochs=5, steps_per_epoch=15000)
     m.to(device)
 
-    # models_dir = 'model'
-    # os.makedirs(models_dir, exist_ok=True)
+    models_dir = 'model'
+    os.makedirs(models_dir, exist_ok=True)
 
-    # torch.save(m.state_dict(), 'model/model.pth')
+    torch.save(m.state_dict(), 'model/st_model.pth')
     

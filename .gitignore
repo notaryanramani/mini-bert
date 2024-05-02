@@ -167,4 +167,6 @@ explore.ipynb
 Project Document.pages
 logs/
 
-modelkit/models/*.pth
+model/
+data/
+checkpoints/

@@ -32,7 +32,7 @@ class DataLoaderForBase:
         
     def train_val_split(self):
         tokens = self.tokenizer.encode(self.text, allowed_special=self.tokenizer.special_tokens_set)
-        split = int(len(tokens) * 0.9)
+        split = int(len(tokens) * 0.8)
         self.train_tokens = tokens[:split]
         self.val_tokens = tokens[split:]
     
@@ -96,6 +96,11 @@ class DataLoaderForBase:
 
     def get_data(self):
         return self.text
+    
+
+    def get_n_tokens(self):
+        tokens = self.tokenizer.encode(self.text, allowed_special=self.tokenizer.special_tokens_set)
+        return len(tokens)
     
 
     def get_tokenizer(self):

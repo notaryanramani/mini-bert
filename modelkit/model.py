@@ -3,9 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-dropout = 0.2
 class BERT(nn.Module):
-    def __init__(self, vocab_size, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = dropout):
+    def __init__(self, vocab_size, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = 0.1):
         super().__init__()
         self.tok_emb = nn.Embedding(vocab_size, n_embd)
         self.pos_emb = PositionEmbedding(n_embd, block_size)
@@ -45,7 +44,7 @@ class BERT(nn.Module):
     
 
 class BERTforClassification(nn.Module):
-    def __init__(self, vocab_size, n_targets, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = dropout):
+    def __init__(self, vocab_size, n_targets, n_embd = 384, block_size = 128, n_heads = 6, n_layers = 6, dropout = 0.1):
         super().__init__()
         self.tok_emb = nn.Embedding(vocab_size, n_embd)
         self.pos_emb = PositionEmbedding(n_embd, block_size)
@@ -58,11 +57,11 @@ class BERTforClassification(nn.Module):
     def forward(self, x, targets = None):
         x = self.tok_emb(x)
         x = self.pos_emb(x)
-
         x = self.encoders(x)
+        x = x.mean(dim=1)
         x = self.ln(x)
-        last_hidden_state = self.linear(x)
-        logits = last_hidden_state.mean(dim=-2, keepdim=True).squeeze(-2)
+        
+        logits = self.linear(x)
 
         if targets is not None:
             loss = F.cross_entropy(logits, targets)
